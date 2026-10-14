@@ -1,403 +1,375 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <meta name="description" content="The portfolio of Arinda Coleb, a development economist, analyst, and frontend developer interested in data, technology, and public policy.">
+    <meta
+      name="description"
+      content="The portfolio of Arinda Coleb, a development economist, analyst, and frontend developer interested in data, technology, and public policy."
+    />
 
-    <meta name="theme-color" content="#142B4A">
+    <meta name="theme-color" content="#142B4A" />
 
     <title>Arinda Coleb | Economist, Analyst & Developer</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
     <script src="script.js" defer></script>
-</head>
+  </head>
 
-<body>
-
+  <body>
     <!-- Header and Navigation -->
     <header class="site-header" id="home">
-        <div class="container nav-container">
+      <div class="container nav-container">
+        <a href="#home" class="logo" aria-label="Arinda Coleb home">
+          ARINDA<span>COLEB</span><span class="logo-dot">.</span>
+        </a>
 
-            <a href="#home" class="logo" aria-label="Arinda Coleb home">
-                ARINDA<span>COLEB</span><span class="logo-dot">.</span>
-            </a>
+        <nav class="navbar" id="navbar" aria-label="Main navigation">
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </nav>
 
-            <nav class="navbar" id="navbar" aria-label="Main navigation">
-                <a href="#about">About</a>
-                <a href="#skills">Skills</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
-            </nav>
-
-            <button
-                class="theme-toggle"
-                id="theme-toggle"
-                type="button"
-                aria-label="Switch to dark theme"
-                title="Toggle color theme"
-            >
-                <span id="theme-icon" aria-hidden="true">☾</span>
-            </button>
-
-        </div>
+        <button
+          class="theme-toggle"
+          id="theme-toggle"
+          type="button"
+          aria-label="Switch to dark theme"
+          title="Toggle color theme"
+        >
+          <span id="theme-icon" aria-hidden="true">☾</span>
+        </button>
+      </div>
     </header>
 
     <main>
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="container hero-grid">
+          <div class="hero-content">
+            <p class="eyebrow">
+              ECONOMICS <span>·</span> DATA <span>·</span> TECHNOLOGY
+            </p>
 
-        <!-- Hero Section -->
-        <section class="hero">
-            <div class="container hero-grid">
+            <h1 id="hero-title">
+              Hello, I'm Arinda Coleb.
+              <span class="hero-highlight" id="hero-highlight">
+                I turn ideas into insight.
+              </span>
+            </h1>
 
-                <div class="hero-content">
-                    <p class="eyebrow">
-                        ECONOMICS <span>·</span> DATA <span>·</span> TECHNOLOGY
-                    </p>
+            <p class="hero-description" id="hero-description">
+              I'm a development economist, analyst, and frontend developer
+              interested in understanding problems through data, exploring
+              public policy, and building useful digital experiences.
+            </p>
 
-                    <h1 id="hero-title">
-                        Hello, I'm Arinda Coleb.
-                        <span class="hero-highlight" id="hero-highlight">
-                            I turn ideas into insight.
-                        </span>
-                    </h1>
+            <div class="hero-buttons">
+              <a href="#projects" class="btn btn-primary">
+                Explore my work <span aria-hidden="true">↗</span>
+              </a>
 
-                    <p class="hero-description" id="hero-description">
-                        I'm a development economist, analyst, and frontend
-                        developer interested in understanding problems through
-                        data, exploring public policy, and building useful
-                        digital experiences.
-                    </p>
-
-                    <div class="hero-buttons">
-                        <a href="#projects" class="btn btn-primary">
-                            Explore my work <span aria-hidden="true">↗</span>
-                        </a>
-
-                        <a href="#contact" class="btn btn-secondary">
-                            Get in touch
-                        </a>
-                    </div>
-
-                    <div class="hero-note">
-                        <span class="status-dot"></span>
-                        <span>Curious mind. Analytical thinking. Continuous growth.</span>
-                    </div>
-                </div>
-
-                <div class="hero-card">
-                    <div class="hero-card-top">
-                        <span class="card-label">A LITTLE ABOUT MY WORK</span>
-                        <span class="card-symbol" aria-hidden="true">✳</span>
-                    </div>
-
-                    <div class="identity-item">
-                        <div class="identity-icon" aria-hidden="true">01</div>
-                        <div>
-                            <h3>Economics</h3>
-                            <p>Understanding development, policy, and people.</p>
-                        </div>
-                    </div>
-
-                    <div class="identity-item">
-                        <div class="identity-icon" aria-hidden="true">02</div>
-                        <div>
-                            <h3>Data & Analysis</h3>
-                            <p>Finding patterns and turning information into insight.</p>
-                        </div>
-                    </div>
-
-                    <div class="identity-item">
-                        <div class="identity-icon" aria-hidden="true">03</div>
-                        <div>
-                            <h3>Frontend Development</h3>
-                            <p>Learning to build clean, responsive web experiences.</p>
-                        </div>
-                    </div>
-
-                    <div class="hero-card-footer">
-                        <span>THINK</span>
-                        <span>·</span>
-                        <span>ANALYZE</span>
-                        <span>·</span>
-                        <span>BUILD</span>
-                    </div>
-                </div>
-
+              <a href="#contact" class="btn btn-secondary"> Get in touch </a>
             </div>
-        </section>
 
-        <!-- About Section -->
-        <section class="section" id="about">
-            <div class="container">
-
-                <div class="section-heading">
-                    <p class="eyebrow">GET TO KNOW ME</p>
-                    <h2>About me</h2>
-                    <p class="section-intro" id="about-intro">
-                        Bringing together economics, analytical thinking,
-                        and technology.
-                    </p>
-                </div>
-
-                <div class="about-grid">
-                    <div class="about-main" id="editable-about">
-                        <h3 id="about-heading">Curiosity drives my work.</h3>
-
-                        <p>
-                            I have a background in Development Economics and
-                            a strong interest in how evidence, institutions,
-                            and public policy can improve people's lives.
-                        </p>
-
-                        <p>
-                            My interests include education systems, employment,
-                            agriculture, infrastructure, and inclusive
-                            development. I enjoy asking questions, examining
-                            evidence, and looking for practical solutions.
-                        </p>
-
-                        <p>
-                            I'm also developing my skills in data analysis
-                            and frontend development. My goal is to combine
-                            analytical thinking with technology to solve
-                            meaningful problems and communicate ideas clearly.
-                        </p>
-                    </div>
-
-                    <aside class="about-highlight">
-                        <span class="highlight-symbol" aria-hidden="true">“</span>
-
-                        <blockquote id="about-quote">
-                            Good analysis helps us understand a problem.
-                            Good solutions help us do something about it.
-                        </blockquote>
-
-                        <p class="highlight-caption">
-                            THE WAY I APPROACH PROBLEMS
-                        </p>
-                    </aside>
-                </div>
-
+            <div class="hero-note">
+              <span class="status-dot"></span>
+              <span>Curious mind. Analytical thinking. Continuous growth.</span>
             </div>
-        </section>
+          </div>
 
-        <!-- Skills Section -->
-        <section class="section section-alt" id="skills">
-            <div class="container">
+          <div class="hero-card">
+            <div class="hero-card-top">
+              <span class="card-label">A LITTLE ABOUT MY WORK</span>
+              <span class="card-symbol" aria-hidden="true">✳</span>
+            </div>
 
-                <div class="section-heading">
-                    <p class="eyebrow">WHAT I'M WORKING WITH</p>
-                    <h2 id="skills-heading">Skills & interests</h2>
-                    <p class="section-intro">
-                        A growing toolkit built around analysis,
-                        problem-solving, and technology.
-                    </p>
+            <div class="identity-item">
+              <div class="identity-icon" aria-hidden="true">01</div>
+              <div>
+                <h3>Economics</h3>
+                <p>Understanding development, policy, and people.</p>
+              </div>
+            </div>
+
+            <div class="identity-item">
+              <div class="identity-icon" aria-hidden="true">02</div>
+              <div>
+                <h3>Data & Analysis</h3>
+                <p>Finding patterns and turning information into insight.</p>
+              </div>
+            </div>
+
+            <div class="identity-item">
+              <div class="identity-icon" aria-hidden="true">03</div>
+              <div>
+                <h3>Frontend Development</h3>
+                <p>Learning to build clean, responsive web experiences.</p>
+              </div>
+            </div>
+
+            <div class="hero-card-footer">
+              <span>THINK</span>
+              <span>·</span>
+              <span>ANALYZE</span>
+              <span>·</span>
+              <span>BUILD</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section class="section" id="about">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">GET TO KNOW ME</p>
+            <h2>About me</h2>
+            <p class="section-intro" id="about-intro">
+              Bringing together economics, analytical thinking, and technology.
+            </p>
+          </div>
+
+          <div class="about-grid">
+            <div class="about-main" id="editable-about">
+              <h3 id="about-heading">Curiosity drives my work.</h3>
+
+              <p>
+                I have a background in Development Economics and a strong
+                interest in how evidence, institutions, and public policy can
+                improve people's lives.
+              </p>
+
+              <p>
+                My interests include education systems, employment, agriculture,
+                infrastructure, and inclusive development. I enjoy asking
+                questions, examining evidence, and looking for practical
+                solutions.
+              </p>
+
+              <p>
+                I'm also developing my skills in data analysis and frontend
+                development. My goal is to combine analytical thinking with
+                technology to solve meaningful problems and communicate ideas
+                clearly.
+              </p>
+            </div>
+
+            <aside class="about-highlight">
+              <span class="highlight-symbol" aria-hidden="true">“</span>
+
+              <blockquote id="about-quote">
+                Good analysis helps us understand a problem. Good solutions help
+                us do something about it.
+              </blockquote>
+
+              <p class="highlight-caption">THE WAY I APPROACH PROBLEMS</p>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Section -->
+      <section class="section section-alt" id="skills">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">WHAT I'M WORKING WITH</p>
+            <h2 id="skills-heading">Skills & interests</h2>
+            <p class="section-intro">
+              A growing toolkit built around analysis, problem-solving, and
+              technology.
+            </p>
+          </div>
+
+          <div class="skills-grid">
+            <article class="skill-card">
+              <div class="skill-icon" aria-hidden="true">01</div>
+              <h3 data-category-heading="Web Development">Web Development</h3>
+              <p data-category-description="Web Development">
+                Building the foundations of responsive, interactive websites.
+              </p>
+
+              <div class="tag-list" data-skill-category="Web Development">
+                <span>HTML5</span>
+                <span>CSS3</span>
+                <span>JavaScript</span>
+              </div>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-icon" aria-hidden="true">02</div>
+              <h3 data-category-heading="Data & Analysis">Data & Analysis</h3>
+              <p data-category-description="Data & Analysis">
+                Developing practical skills to organize, explore, and
+                communicate data.
+              </p>
+
+              <div class="tag-list" data-skill-category="Data & Analysis">
+                <span>Excel</span>
+                <span>Data Analysis</span>
+                <span>Visualization</span>
+              </div>
+            </article>
+
+            <article class="skill-card">
+              <div class="skill-icon" aria-hidden="true">03</div>
+              <h3 data-category-heading="Economics & Research">
+                Economics & Research
+              </h3>
+              <p data-category-description="Economics & Research">
+                Exploring economic development, public policy, and
+                evidence-based decision-making.
+              </p>
+
+              <div class="tag-list" data-skill-category="Economics & Research">
+                <span>Development Economics</span>
+                <span>Research</span>
+                <span>Policy</span>
+              </div>
+            </article>
+          </div>
+
+          <p class="skills-note" id="skills-note">
+            I'm continuously learning and expanding these skills through
+            practical exercises and projects.
+          </p>
+        </div>
+      </section>
+
+      <!-- Projects Section -->
+      <section class="section" id="projects">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">SELECTED WORK</p>
+            <h2 id="projects-heading">Projects I've been building</h2>
+            <p class="section-intro">
+              Small projects, practical experience, and progress through
+              learning by doing.
+            </p>
+          </div>
+
+          <div class="projects-grid" id="editable-projects">
+            <article class="project-card">
+              <div class="project-visual visual-guess">
+                <span class="visual-label">JAVASCRIPT PROJECT</span>
+                <div class="guess-preview" aria-hidden="true">
+                  <span>?</span>
+                  <span>?</span>
+                  <span>?</span>
                 </div>
+              </div>
 
-                <div class="skills-grid">
+              <div class="project-content">
+                <p class="project-category">GAME · LOGIC</p>
+                <h3>Number Guessing Game</h3>
 
-                    <article class="skill-card">
-                        <div class="skill-icon" aria-hidden="true">01</div>
-                        <h3 data-category-heading="Web Development">Web Development</h3>
-                        <p data-category-description="Web Development">
-                            Building the foundations of responsive,
-                            interactive websites.
-                        </p>
-
-                        <div class="tag-list" data-skill-category="Web Development">
-                            <span>HTML5</span>
-                            <span>CSS3</span>
-                            <span>JavaScript</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card">
-                        <div class="skill-icon" aria-hidden="true">02</div>
-                        <h3 data-category-heading="Data & Analysis">Data & Analysis</h3>
-                        <p data-category-description="Data & Analysis">
-                            Developing practical skills to organize,
-                            explore, and communicate data.
-                        </p>
-
-                        <div class="tag-list" data-skill-category="Data & Analysis">
-                            <span>Excel</span>
-                            <span>Data Analysis</span>
-                            <span>Visualization</span>
-                        </div>
-                    </article>
-
-                    <article class="skill-card">
-                        <div class="skill-icon" aria-hidden="true">03</div>
-                        <h3 data-category-heading="Economics & Research">Economics & Research</h3>
-                        <p data-category-description="Economics & Research">
-                            Exploring economic development, public policy,
-                            and evidence-based decision-making.
-                        </p>
-
-                        <div class="tag-list" data-skill-category="Economics & Research">
-                            <span>Development Economics</span>
-                            <span>Research</span>
-                            <span>Policy</span>
-                        </div>
-                    </article>
-
-                </div>
-
-                <p class="skills-note" id="skills-note">
-                    I'm continuously learning and expanding these skills
-                    through practical exercises and projects.
+                <p>
+                  A browser game in which users try to guess a randomly
+                  generated number, with feedback and an attempt counter.
                 </p>
 
-            </div>
-        </section>
-
-        <!-- Projects Section -->
-        <section class="section" id="projects">
-            <div class="container">
-
-                <div class="section-heading">
-                    <p class="eyebrow">SELECTED WORK</p>
-                    <h2 id="projects-heading">Projects I've been building</h2>
-                    <p class="section-intro">
-                        Small projects, practical experience, and progress
-                        through learning by doing.
-                    </p>
+                <div class="tag-list">
+                  <span>HTML</span>
+                  <span>CSS</span>
+                  <span>JavaScript</span>
                 </div>
 
-                <div class="projects-grid" id="editable-projects">
+                <a class="project-link" href="#contact">
+                  Ask me about this project
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
 
-                    <article class="project-card">
-                        <div class="project-visual visual-guess">
-                            <span class="visual-label">JAVASCRIPT PROJECT</span>
-                            <div class="guess-preview" aria-hidden="true">
-                                <span>?</span>
-                                <span>?</span>
-                                <span>?</span>
-                            </div>
-                        </div>
+            <article class="project-card">
+              <div class="project-visual visual-rps">
+                <span class="visual-label">JAVASCRIPT PROJECT</span>
+                <div class="rps-preview" aria-hidden="true">
+                  <span>✊</span>
+                  <span>VS</span>
+                  <span>✌</span>
+                </div>
+              </div>
 
-                        <div class="project-content">
-                            <p class="project-category">GAME · LOGIC</p>
-                            <h3>Number Guessing Game</h3>
+              <div class="project-content">
+                <p class="project-category">GAME · INTERACTION</p>
+                <h3>Rock Paper Scissors</h3>
 
-                            <p>
-                                A browser game in which users try to guess
-                                a randomly generated number, with feedback
-                                and an attempt counter.
-                            </p>
+                <p>
+                  A browser-based game featuring player choices,
+                  computer-generated moves, game results, and score tracking.
+                </p>
 
-                            <div class="tag-list">
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>JavaScript</span>
-                            </div>
-
-                            <a class="project-link" href="#contact">
-                                Ask me about this project
-                                <span aria-hidden="true">↗</span>
-                            </a>
-                        </div>
-                    </article>
-
-                    <article class="project-card">
-                        <div class="project-visual visual-rps">
-                            <span class="visual-label">JAVASCRIPT PROJECT</span>
-                            <div class="rps-preview" aria-hidden="true">
-                                <span>✊</span>
-                                <span>VS</span>
-                                <span>✌</span>
-                            </div>
-                        </div>
-
-                        <div class="project-content">
-                            <p class="project-category">GAME · INTERACTION</p>
-                            <h3>Rock Paper Scissors</h3>
-
-                            <p>
-                                A browser-based game featuring player choices,
-                                computer-generated moves, game results,
-                                and score tracking.
-                            </p>
-
-                            <div class="tag-list">
-                                <span>HTML</span>
-                                <span>CSS</span>
-                                <span>JavaScript</span>
-                            </div>
-
-                            <a class="project-link" href="#contact">
-                                Ask me about this project
-                                <span aria-hidden="true">↗</span>
-                            </a>
-                        </div>
-                    </article>
-
+                <div class="tag-list">
+                  <span>HTML</span>
+                  <span>CSS</span>
+                  <span>JavaScript</span>
                 </div>
 
-                <div class="projects-note">
-                    <p>
-                        More projects will be added as I continue learning
-                        and building.
-                    </p>
-                </div>
+                <a class="project-link" href="#contact">
+                  Ask me about this project
+                  <span aria-hidden="true">↗</span>
+                </a>
+              </div>
+            </article>
+          </div>
 
-            </div>
-        </section>
+          <div class="projects-note">
+            <p>
+              More projects will be added as I continue learning and building.
+            </p>
+          </div>
+        </div>
+      </section>
 
-        <!-- Contact Section -->
-        <section class="section contact-section" id="contact">
-            <div class="container">
-                <div class="contact-card">
+      <!-- Contact Section -->
+      <section class="section contact-section" id="contact">
+        <div class="container">
+          <div class="contact-card">
+            <p class="eyebrow">LET'S CONNECT</p>
 
-                    <p class="eyebrow">LET'S CONNECT</p>
+            <h2 id="contact-heading">Have an idea or opportunity?</h2>
 
-                    <h2 id="contact-heading">Have an idea or opportunity?</h2>
+            <p id="contact-description">
+              I'm interested in meaningful conversations, professional
+              opportunities, and projects involving economics, data, and
+              technology.
+            </p>
 
-                    <p id="contact-description">
-                        I'm interested in meaningful conversations,
-                        professional opportunities, and projects involving
-                        economics, data, and technology.
-                    </p>
+            <a
+              href="mailto:colebarinda97r@gmail.com"
+              id="contact-link"
+              class="btn btn-light"
+            >
+              Email me
+              <span aria-hidden="true">↗</span>
+            </a>
 
-                    <a
-                        href="mailto:colebarinda97r@gmail.com" id="contact-link"
-                        class="btn btn-light"
-                    >
-                        Email me
-                        <span aria-hidden="true">↗</span>
-                    </a>
-
-                    <p class="contact-email" id="contact-email">
-                        colebarinda97r@gmail.com
-                    </p>
-
-                </div>
-            </div>
-        </section>
-
+            <p class="contact-email" id="contact-email">
+              colebarinda97r@gmail.com
+            </p>
+          </div>
+        </div>
+      </section>
     </main>
 
     <!-- Footer -->
     <footer class="site-footer">
-        <div class="container footer-content">
+      <div class="container footer-content">
+        <a href="#home" class="footer-logo"> ARINDA COLEB<span>.</span> </a>
 
-            <a href="#home" class="footer-logo">
-                ARINDA COLEB<span>.</span>
-            </a>
+        <p id="footer-text">
+          Economics, analysis, and technology — always learning.
+        </p>
 
-            <p id="footer-text">
-                Economics, analysis, and technology — always learning.
-            </p>
-
-            <p class="copyright">
-                &copy; <span id="current-year">2026</span> Arinda Coleb.
-                All rights reserved.
-            </p>
-
-        </div>
+        <p class="copyright">
+          &copy; <span id="current-year">2026</span> Arinda Coleb. All rights
+          reserved.
+        </p>
+      </div>
     </footer>
-
-</body>
+  </body>
 </html>

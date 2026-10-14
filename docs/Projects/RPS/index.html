@@ -1,2 +1,58 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Challenge the computer and build your winning streak."><title>Rock Paper Scissors | Arinda Coleb</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head><body><header><strong>ARINDA COLEB <span style="color:#38c5c0">/ Projects</span></strong><a href="../../index.html">← Portfolio</a></header><main><h1>Rock Paper Scissors</h1><p class="lead">Challenge the computer and build your winning streak.</p><section class="panel"><h2>Choose your move</h2><div class="moves"><button data-move="rock" aria-label="Rock">✊<span>Rock</span></button><button data-move="paper" aria-label="Paper">✋<span>Paper</span></button><button data-move="scissors" aria-label="Scissors">✌️<span>Scissors</span></button></div><div class="battle"><div><span class="muted">You</span><strong id="player-move">—</strong></div><span class="muted">VS</span><div><span class="muted">Computer</span><strong id="computer-move">—</strong></div></div><p class="message" id="result" aria-live="polite">Choose a move to start.</p><button class="secondary" id="reset">Reset scoreboard</button></section><section class="grid"><div class="stat"><span>Wins</span><strong id="wins">0</strong></div><div class="stat"><span>Losses</span><strong id="losses">0</strong></div><div class="stat"><span>Draws</span><strong id="draws">0</strong></div></section><p class="muted" id="streak">Current winning streak: 0 · Best: 0</p></main></body></html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Challenge the computer and build your winning streak."
+    />
+    <title>Rock Paper Scissors | Arinda Coleb</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <strong
+        >ARINDA COLEB <span style="color: #38c5c0">/ Projects</span></strong
+      ><a href="../../index.html">← Portfolio</a>
+    </header>
+    <main>
+      <h1>Rock Paper Scissors</h1>
+      <p class="lead">Challenge the computer and build your winning streak.</p>
+      <section class="panel">
+        <h2>Choose your move</h2>
+        <div class="moves">
+          <button data-move="rock" aria-label="Rock">✊<span>Rock</span></button
+          ><button data-move="paper" aria-label="Paper">
+            ✋<span>Paper</span></button
+          ><button data-move="scissors" aria-label="Scissors">
+            ✌️<span>Scissors</span>
+          </button>
+        </div>
+        <div class="battle">
+          <div>
+            <span class="muted">You</span><strong id="player-move">—</strong>
+          </div>
+          <span class="muted">VS</span>
+          <div>
+            <span class="muted">Computer</span
+            ><strong id="computer-move">—</strong>
+          </div>
+        </div>
+        <p class="message" id="result" aria-live="polite">
+          Choose a move to start.
+        </p>
+        <button class="secondary" id="reset">Reset scoreboard</button>
+      </section>
+      <section class="grid">
+        <div class="stat"><span>Wins</span><strong id="wins">0</strong></div>
+        <div class="stat">
+          <span>Losses</span><strong id="losses">0</strong>
+        </div>
+        <div class="stat"><span>Draws</span><strong id="draws">0</strong></div>
+      </section>
+      <p class="muted" id="streak">Current winning streak: 0 · Best: 0</p>
+    </main>
+  </body>
+</html>

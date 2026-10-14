@@ -67,12 +67,20 @@ themeButton.addEventListener("click", function () {
 
 // 5. Update the copyright year automatically
 copyrightYear.textContent = new Date().getFullYear();
-// Admin-managed content is stored in this browser for the local prototype.
-(function () {
-  const KEY = 'colebs-portfolio-content-v1';
-  let data;
-  try { data = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch { return; }
-  if (!data || typeof data !== 'object') return;
+// Public portfolio content is loaded from the JSON file published alongside this script.
+// Admin edits remain local until exported and copied into docs/portfolio-content.json.
+async function loadPortfolioContent() {
+  try {
+    const response = await fetch('./portfolio-content.json', {cache: 'no-cache'});
+    if (!response.ok) throw new Error('Content file unavailable');
+    const data = await response.json();
+    if (!data || typeof data !== 'object') return;
+    renderPortfolioContent(data);
+  } catch (error) {
+    console.warn('Using default HTML content:', error.message);
+  }
+}
+function renderPortfolioContent(data) {
   if (data.skills && typeof data.skills === 'object') {
     document.querySelectorAll('[data-skill-category]').forEach(list => {
       const values = data.skills[list.dataset.skillCategory];
@@ -84,8 +92,10 @@ copyrightYear.textContent = new Date().getFullYear();
   }
   if (typeof data.about === 'string') {
     const about = document.querySelector('#editable-about');
-    if (about) { about.querySelectorAll('p').forEach(el => el.remove());
-      const p = document.createElement('p'); p.textContent = data.about; about.append(p); }
+    if (about) {
+      about.querySelectorAll('p').forEach(el => el.remove());
+      const p = document.createElement('p'); p.textContent = data.about; about.append(p);
+    }
   }
   if (Array.isArray(data.projects)) {
     const grid = document.querySelector('#editable-projects');
@@ -103,28 +113,28 @@ copyrightYear.textContent = new Date().getFullYear();
         const title = document.createElement('h3'); title.textContent = project.title;
         const desc = document.createElement('p'); desc.textContent = project.description || '';
         content.append(category, title, desc);
-        if (typeof project.link === 'string' && (/^https?:\/\//i.test(project.link) || /^(?:\.\/)?projects\/[a-z0-9_-]+\/index\.html$/i.test(project.link))) {
-          const a = document.createElement('a'); a.className = 'project-link'; a.href = project.link; a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'View project ↗'; content.append(a);
+        if (typeof project.link === 'string' && /^(?:\.\/)?projects\/[a-z0-9_-]+\/index\.html$/i.test(project.link)) {
+          const a = document.createElement('a'); a.className = 'project-link'; a.href = project.link;
+          a.target = '_blank'; a.rel = 'noopener noreferrer'; a.textContent = 'View project ↗'; content.append(a);
         }
         article.append(visual, content); grid.append(article);
       });
     }
   }
-})();
-
-// Additional editable portfolio fields
-(function(){
-  let saved;
-  try { saved=JSON.parse(localStorage.getItem('colebs-portfolio-content-v1')||'null'); } catch {return;}
-  if(!saved || typeof saved!=='object')return;
-  const fields=saved.fields||{};
+  const fields=data.fields||{};
   const map={heroTitle:'#hero-title',heroHighlight:'#hero-highlight',heroDescription:'#hero-description',aboutHeading:'#about-heading',aboutIntro:'#about-intro',aboutQuote:'#about-quote',skillsHeading:'#skills-heading',skillsNote:'#skills-note',projectsHeading:'#projects-heading',contactHeading:'#contact-heading',contactDescription:'#contact-description',contactEmail:'#contact-email',footerText:'#footer-text'};
   for(const [key,selector] of Object.entries(map)){
     if(typeof fields[key]!=='string')continue;
     const element=document.querySelector(selector);if(element)element.textContent=fields[key];
   }
-  if(typeof fields.contactEmail==='string'){const link=document.querySelector('#contact-link');if(link)link.href='mailto:'+fields.contactEmail;}
-  if(saved.categories && typeof saved.categories==='object'){
-    document.querySelectorAll('[data-category-description]').forEach(element=>{const value=saved.categories[element.dataset.categoryDescription];if(typeof value==='string')element.textContent=value;});
+  if(typeof fields.contactEmail==='string'){
+    const link=document.querySelector('#contact-link');if(link)link.href='mailto:'+fields.contactEmail;
   }
-})();
+  if(data.categories && typeof data.categories==='object'){
+    document.querySelectorAll('[data-category-description]').forEach(element=>{
+      const value=data.categories[element.dataset.categoryDescription];
+      if(typeof value==='string')element.textContent=value;
+    });
+  }
+}
+loadPortfolioContent();

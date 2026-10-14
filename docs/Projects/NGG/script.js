@@ -1,11 +1,83 @@
 "use strict";
-const levels={easy:{max:50,tries:10},medium:{max:100,tries:8},hard:{max:200,tries:7}};
-const $=id=>document.getElementById(id);
-let target,remaining,guesses,finished;
-let stats={wins:0,played:0};
-try{const saved=JSON.parse(localStorage.getItem('guess-stats'));if(saved&&Number.isInteger(saved.wins)&&Number.isInteger(saved.played))stats=saved;}catch{}
-function drawStats(){ $('wins').textContent=stats.wins;$('played').textContent=stats.played; }
-function newGame(){const level=levels[$('difficulty').value];target=Math.floor(Math.random()*level.max)+1;remaining=level.tries;guesses=[];finished=false;$('guess').min=1;$('guess').max=level.max;$('guess').value='';$('guess').disabled=false;$('submit').disabled=false;$('range').textContent=`Guess a number from 1 to ${level.max}. You have ${level.tries} attempts.`;$('left').textContent=remaining;$('history').textContent='Previous guesses: None';$('message').textContent='Good luck!';$('guess').focus();drawStats();}
-function finish(won){finished=true;stats.played++;if(won)stats.wins++;try{localStorage.setItem('guess-stats',JSON.stringify(stats));}catch{}$('guess').disabled=true;$('submit').disabled=true;drawStats();}
-$('guess-form').addEventListener('submit',event=>{event.preventDefault();if(finished)return;const number=Number($('guess').value),max=levels[$('difficulty').value].max;if(!Number.isInteger(number)||number<1||number>max){$('message').textContent=`Enter a whole number between 1 and ${max}.`;return;}if(guesses.includes(number)){$('message').textContent='You already tried that number. Try another!';return;}guesses.push(number);remaining--;$('left').textContent=remaining;$('history').textContent=`Previous guesses: ${guesses.join(', ')}`;if(number===target){$('message').textContent=`Excellent! ${target} is correct. You won in ${guesses.length} guesses!`;finish(true);}else if(remaining===0){$('message').textContent=`Game over! The number was ${target}.`;finish(false);}else{const diff=Math.abs(number-target);$('message').textContent=`Too ${number<target?'low':'high'}! ${diff<=5?'Very close!':diff<=15?'Getting warmer.':'Keep trying.'}`;}$('guess').value='';if(!finished)$('guess').focus();});
-$('difficulty').addEventListener('change',newGame);$('new').addEventListener('click',newGame);newGame();
+const levels = {
+  easy: { max: 50, tries: 10 },
+  medium: { max: 100, tries: 8 },
+  hard: { max: 200, tries: 7 },
+};
+const $ = (id) => document.getElementById(id);
+let target, remaining, guesses, finished;
+let stats = { wins: 0, played: 0 };
+try {
+  const saved = JSON.parse(localStorage.getItem("guess-stats"));
+  if (saved && Number.isInteger(saved.wins) && Number.isInteger(saved.played))
+    stats = saved;
+} catch {}
+function drawStats() {
+  $("wins").textContent = stats.wins;
+  $("played").textContent = stats.played;
+}
+function newGame() {
+  const level = levels[$("difficulty").value];
+  target = Math.floor(Math.random() * level.max) + 1;
+  remaining = level.tries;
+  guesses = [];
+  finished = false;
+  $("guess").min = 1;
+  $("guess").max = level.max;
+  $("guess").value = "";
+  $("guess").disabled = false;
+  $("submit").disabled = false;
+  $("range").textContent =
+    `Guess a number from 1 to ${level.max}. You have ${level.tries} attempts.`;
+  $("left").textContent = remaining;
+  $("history").textContent = "Previous guesses: None";
+  $("message").textContent = "Good luck!";
+  $("guess").focus();
+  drawStats();
+}
+function finish(won) {
+  finished = true;
+  stats.played++;
+  if (won) stats.wins++;
+  try {
+    localStorage.setItem("guess-stats", JSON.stringify(stats));
+  } catch {}
+  $("guess").disabled = true;
+  $("submit").disabled = true;
+  drawStats();
+}
+$("guess-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (finished) return;
+  const number = Number($("guess").value),
+    max = levels[$("difficulty").value].max;
+  if (!Number.isInteger(number) || number < 1 || number > max) {
+    $("message").textContent = `Enter a whole number between 1 and ${max}.`;
+    return;
+  }
+  if (guesses.includes(number)) {
+    $("message").textContent = "You already tried that number. Try another!";
+    return;
+  }
+  guesses.push(number);
+  remaining--;
+  $("left").textContent = remaining;
+  $("history").textContent = `Previous guesses: ${guesses.join(", ")}`;
+  if (number === target) {
+    $("message").textContent =
+      `Excellent! ${target} is correct. You won in ${guesses.length} guesses!`;
+    finish(true);
+  } else if (remaining === 0) {
+    $("message").textContent = `Game over! The number was ${target}.`;
+    finish(false);
+  } else {
+    const diff = Math.abs(number - target);
+    $("message").textContent =
+      `Too ${number < target ? "low" : "high"}! ${diff <= 5 ? "Very close!" : diff <= 15 ? "Getting warmer." : "Keep trying."}`;
+  }
+  $("guess").value = "";
+  if (!finished) $("guess").focus();
+});
+$("difficulty").addEventListener("change", newGame);
+$("new").addEventListener("click", newGame);
+newGame();
