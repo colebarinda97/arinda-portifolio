@@ -85,10 +85,16 @@ data.categories = { ...defaults.categories, ...(data.categories || {}) };
 let editingSkill = null,
   editingProject = null;
 const status = (msg) => ($("#status").textContent = msg);
+function updateOverview() {
+  $("#stat-projects").textContent = data.projects.length;
+  $("#stat-skills").textContent = Object.values(data.skills).reduce((sum, items) => sum + items.length, 0);
+  $("#stat-categories").textContent = Object.keys(data.skills).length;
+}
 function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify(data));
-    status("Saved. Refresh your portfolio tab to see changes.");
+    status("Saved locally. Export for website when ready to publish.");
+    updateOverview();
   } catch {
     status("Saving failed. Check browser storage settings.");
   }
@@ -152,6 +158,7 @@ function renderSkills() {
           });
         }),
         actionButton("Remove", () => {
+          if (!confirm(`Remove skill "${name}"?`)) return;
           data.skills[category].splice(i, 1);
           resetSkill();
           save();
@@ -190,6 +197,7 @@ function renderProjects() {
         });
       }),
       actionButton("Remove", () => {
+        if (!confirm(`Remove project "${p.title}"?`)) return;
         data.projects.splice(i, 1);
         resetProject();
         save();
@@ -302,17 +310,20 @@ $("#project-form").addEventListener("submit", (e) => {
   renderProjects();
 });
 $("#cancel-edit").addEventListener("click", resetProject);
-$("#export").addEventListener("click", () => {
-  const blob = new Blob([JSON.stringify(data, null, 2)], {
-    type: "application/json",
-  });
+function downloadJson(filename) {
+  const blob = new Blob([JSON.stringify(data, null, 2) + "\n"], { type: "application/json" });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "portfolio-content-backup.json";
+  a.download = filename;
+  document.body.append(a);
   a.click();
+  a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-});
+  status(`Downloaded ${filename}.`);
+}
+$("#export").addEventListener("click", () => downloadJson("portfolio-content-backup.json"));
+$("#export-publish").addEventListener("click", () => downloadJson("portfolio-content.json"));
 $("#import").addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;

@@ -1,40 +1,35 @@
 {
   "skills": {
-    "Web Development": ["HTML5", "CSS3", "JavaScript"],
+    "Web Development": [
+      "HTML5",
+      "CSS3",
+      "JavaScript"
+    ],
     "Data & Analysis": [
       "Excel",
       "Data Analysis",
       "Visualization",
-      "SQL",
       "Power BI"
     ],
-    "Economics & Research": ["Development Economics", "Research", "Policy"]
+    "Economics & Research": [
+      "Development Economics",
+      "Research",
+      "Policy"
+    ]
   },
   "about": "I have a background in Development Economics and a strong interest in how evidence, institutions, and public policy can improve people's lives. My interests include education systems, employment, agriculture, infrastructure, and inclusive development. I'm also developing my skills in data analysis and frontend development.",
   "projects": [
     {
       "title": "Number Guessing Game",
-      "category": "JavaScript",
+      "category": "GAME · LOGIC",
       "description": "A browser game in which users try to guess a randomly generated number, with feedback and an attempt counter.",
-      "link": "Projects/NGG/index.html"
+      "link": "projects/number-guessing/index.html"
     },
     {
       "title": "Rock Paper Scissors",
-      "category": "JavaScript",
+      "category": "GAME · INTERACTION",
       "description": "A browser-based game featuring player choices, computer-generated moves, game results, and score tracking.",
-      "link": "Projects/RPS/index.html"
-    },
-    {
-      "title": "Expense Tracker",
-      "category": "JavaScript",
-      "description": "An interactive application for recording expenses, tracking spending, and managing personal finances.",
-      "link": "Projects/ExpT/index.html"
-    },
-    {
-      "title": "Calculator",
-      "category": "JavaScript",
-      "description": "A responsive calculator built with HTML, CSS, and JavaScript for performing basic arithmetic operations.",
-      "link": "Projects/Calc/index.html"
+      "link": "projects/rock-paper-scissors/index.html"
     }
   ],
   "fields": {

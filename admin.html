@@ -11,9 +11,9 @@
   <body>
     <header class="site-header">
       <div class="container nav-container">
-        <a class="logo" href="index.html"
+        <a class="logo" href="docs/index.html"
           >ARINDA<span>COLEB</span><span class="logo-dot">.</span></a
-        ><a class="admin-back" href="index.html">← View portfolio</a>
+        ><a class="admin-back" href="docs/index.html">← View portfolio</a>
       </div>
     </header>
     <main class="container admin-layout">
@@ -21,15 +21,24 @@
         <p class="eyebrow">LOCAL CONTENT EDITOR</p>
         <h1>Portfolio Admin</h1>
         <p>
-          Edit your portfolio content here. Save each section, then refresh the
-          portfolio to see updates.
+          Edit your content, save your changes, and export a publish-ready JSON file. Your live website updates after you commit and push that file to GitHub.
         </p>
+      </div>
+      <section class="admin-overview" aria-label="Content overview">
+        <div class="admin-stat"><span id="stat-projects">0</span><small>Projects</small></div>
+        <div class="admin-stat"><span id="stat-skills">0</span><small>Skills</small></div>
+        <div class="admin-stat"><span id="stat-categories">0</span><small>Categories</small></div>
+      </section>
+      <div class="admin-toolbar">
+        <a class="btn btn-secondary" href="docs/index.html" target="_blank" rel="noopener">Preview local portfolio ↗</a>
+        <a class="btn btn-secondary" href="https://colebarinda97.github.io/arinda-portifolio/" target="_blank" rel="noopener">View published site ↗</a>
+        <button class="btn btn-primary" id="export-publish" type="button">Export for website</button>
       </div>
       <nav class="admin-jump" aria-label="Editor sections">
         <a href="#panel-hero">Hero</a><a href="#panel-about">About</a
         ><a href="#panel-skillsMeta">Skills</a
         ><a href="#panel-projects">Projects</a
-        ><a href="#panel-contact">Contact</a><a href="#panel-footer">Footer</a>
+        ><a href="#panel-contact">Contact</a><a href="#panel-footer">Footer</a><a href="#panel-publish">Publish</a>
       </nav>
       <section class="admin-panel" id="panel-hero">
         <h2>Hero / introduction</h2>
@@ -131,7 +140,7 @@
           ><label for="project-link">Project URL</label
           ><input
             id="project-link"
-            placeholder="projects/calculator/index.html"
+            placeholder="Projects/Calc/index.html"
           />
           <div class="admin-actions">
             <button id="project-submit" class="btn btn-primary" type="submit">
@@ -172,10 +181,9 @@
         </form>
       </section>
       <section class="admin-panel">
-        <h2>Backup & transfer</h2>
+        <h2 id="panel-publish">Backup & publishing</h2>
         <p>
-          Export a JSON backup of your edits. Import it later on the same or
-          another browser.
+          Export for website to download <code>portfolio-content.json</code>, then replace <code>docs/portfolio-content.json</code> and push to GitHub. Keep a separate backup if you want to transfer your editor settings to another browser.
         </p>
         <div class="admin-actions">
           <button id="export" class="btn btn-primary" type="button">
@@ -184,9 +192,7 @@
           ><input id="import" type="file" accept=".json,application/json" />
         </div>
         <p class="admin-warning">
-          Changes are saved only in this browser and on this local site address.
-          This is not a password-protected online CMS. Export before clearing
-          browser data or switching Live Server ports.
+          Admin changes are saved only in this browser. Export for website does not automatically publish. Do not place these admin files in the public docs folder: this editor has no authentication.
         </p>
       </section>
       <p id="status" role="status" aria-live="polite"></p>
