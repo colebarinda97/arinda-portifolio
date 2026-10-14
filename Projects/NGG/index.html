@@ -1,2 +1,63 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="Find the secret number with helpful clues and a limited number of attempts."><title>Number Guessing Game | Arinda Coleb</title><link rel="stylesheet" href="style.css"><script src="script.js" defer></script></head><body><header><strong>ARINDA COLEB <span style="color:#38c5c0">/ Projects</span></strong><a href="../../index.html">← Portfolio</a></header><main><h1>Number Guessing Game</h1><p class="lead">Find the secret number with helpful clues and a limited number of attempts.</p><section class="panel"><div class="row"><label for="difficulty">Difficulty</label><select id="difficulty" style="max-width:230px"><option value="easy">Easy · 1–50 · 10 tries</option><option value="medium" selected>Medium · 1–100 · 8 tries</option><option value="hard">Hard · 1–200 · 7 tries</option></select><button id="new" class="secondary">New game</button></div><p id="range" class="muted"></p><form id="guess-form" class="row"><input id="guess" type="number" min="1" max="100" placeholder="Your guess" required style="max-width:230px"><button id="submit" type="submit">Make a guess</button></form><p id="message" class="message" aria-live="polite">Ready?</p><p id="history" class="muted">Previous guesses: None</p></section><section class="grid"><div class="stat"><span>Attempts left</span><strong id="left">8</strong></div><div class="stat"><span>Games won</span><strong id="wins">0</strong></div><div class="stat"><span>Games played</span><strong id="played">0</strong></div></section></main></body></html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="Find the secret number with helpful clues and a limited number of attempts."
+    />
+    <title>Number Guessing Game | Arinda Coleb</title>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <strong
+        >ARINDA COLEB <span style="color: #38c5c0">/ Projects</span></strong
+      ><a href="../../index.html">← Portfolio</a>
+    </header>
+    <main>
+      <h1>Number Guessing Game</h1>
+      <p class="lead">
+        Find the secret number with helpful clues and a limited number of
+        attempts.
+      </p>
+      <section class="panel">
+        <div class="row">
+          <label for="difficulty">Difficulty</label
+          ><select id="difficulty" style="max-width: 230px">
+            <option value="easy">Easy · 1–50 · 10 tries</option>
+            <option value="medium" selected>Medium · 1–100 · 8 tries</option>
+            <option value="hard">Hard · 1–200 · 7 tries</option></select
+          ><button id="new" class="secondary">New game</button>
+        </div>
+        <p id="range" class="muted"></p>
+        <form id="guess-form" class="row">
+          <input
+            id="guess"
+            type="number"
+            min="1"
+            max="100"
+            placeholder="Your guess"
+            required
+            style="max-width: 230px"
+          /><button id="submit" type="submit">Make a guess</button>
+        </form>
+        <p id="message" class="message" aria-live="polite">Ready?</p>
+        <p id="history" class="muted">Previous guesses: None</p>
+      </section>
+      <section class="grid">
+        <div class="stat">
+          <span>Attempts left</span><strong id="left">8</strong>
+        </div>
+        <div class="stat">
+          <span>Games won</span><strong id="wins">0</strong>
+        </div>
+        <div class="stat">
+          <span>Games played</span><strong id="played">0</strong>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

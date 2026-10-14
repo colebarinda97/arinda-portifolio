@@ -1,14 +1,131 @@
 "use strict";
-const display=document.getElementById('display'),expression=document.getElementById('expression');
-let current='0',previous=null,operator=null,replaceNext=false,history='';
-const symbols={'+':'+','-':'−','*':'×','/':'÷'};
-function render(){display.textContent=current;expression.textContent=history||'\u00a0';}
-function clear(){current='0';previous=null;operator=null;replaceNext=false;history='';render();}
-function input(value){if(current==='Error')clear();if(replaceNext){current=value==='.'?'0.':value;replaceNext=false;}else if(value==='.'){if(!current.includes('.'))current+='.';}else if(current==='0'){current=value;}else if(current==='-0'){current='-'+value;}else if(current.replace(/[^0-9]/g,'').length<14){current+=value;}render();}
-function calculate(a,b,op){switch(op){case '+':return a+b;case '-':return a-b;case '*':return a*b;case '/':return b===0?NaN:a/b;default:return b;}}
-function format(n){if(!Number.isFinite(n))return 'Error';return String(Number(n.toPrecision(12)));}
-function chooseOperator(op){if(current==='Error')return;if(operator!==null&&!replaceNext){const result=calculate(previous,Number(current),operator);current=format(result);if(current==='Error'){previous=null;operator=null;history='Cannot divide by zero';render();return;}}previous=Number(current);operator=op;history=`${current} ${symbols[op]}`;replaceNext=true;render();}
-function equals(){if(operator===null||replaceNext)return;const second=Number(current);history=`${format(previous)} ${symbols[operator]} ${current} =`;current=format(calculate(previous,second,operator));previous=null;operator=null;replaceNext=true;render();}
-function action(type){if(type==='clear')clear();else if(type==='delete'){if(replaceNext||current==='Error'){current='0';replaceNext=false;}else current=current.length<=1||current.length===2&&current.startsWith('-')?'0':current.slice(0,-1);render();}else if(type==='sign'){if(current!=='0'&&current!=='Error')current=current.startsWith('-')?current.slice(1):'-'+current;render();}else if(type==='percent'){if(current!=='Error')current=format(Number(current)/100);render();}else if(type==='equals')equals();}
-document.querySelectorAll('.keys button').forEach(button=>button.addEventListener('click',()=>{if(button.dataset.action==='operator')chooseOperator(button.dataset.value);else if(button.dataset.action)action(button.dataset.action);else input(button.dataset.value);}));
-document.addEventListener('keydown',event=>{if(event.altKey||event.ctrlKey||event.metaKey)return;const k=event.key;if(/^[0-9.]$/.test(k))input(k);else if(['+','-','*','/'].includes(k)){event.preventDefault();chooseOperator(k);}else if(k==='Enter'||k==='='){event.preventDefault();equals();}else if(k==='Backspace'){event.preventDefault();action('delete');}else if(k==='Escape'){clear();}else if(k==='%')action('percent');});render();
+const display = document.getElementById("display"),
+  expression = document.getElementById("expression");
+let current = "0",
+  previous = null,
+  operator = null,
+  replaceNext = false,
+  history = "";
+const symbols = { "+": "+", "-": "−", "*": "×", "/": "÷" };
+function render() {
+  display.textContent = current;
+  expression.textContent = history || "\u00a0";
+}
+function clear() {
+  current = "0";
+  previous = null;
+  operator = null;
+  replaceNext = false;
+  history = "";
+  render();
+}
+function input(value) {
+  if (current === "Error") clear();
+  if (replaceNext) {
+    current = value === "." ? "0." : value;
+    replaceNext = false;
+  } else if (value === ".") {
+    if (!current.includes(".")) current += ".";
+  } else if (current === "0") {
+    current = value;
+  } else if (current === "-0") {
+    current = "-" + value;
+  } else if (current.replace(/[^0-9]/g, "").length < 14) {
+    current += value;
+  }
+  render();
+}
+function calculate(a, b, op) {
+  switch (op) {
+    case "+":
+      return a + b;
+    case "-":
+      return a - b;
+    case "*":
+      return a * b;
+    case "/":
+      return b === 0 ? NaN : a / b;
+    default:
+      return b;
+  }
+}
+function format(n) {
+  if (!Number.isFinite(n)) return "Error";
+  return String(Number(n.toPrecision(12)));
+}
+function chooseOperator(op) {
+  if (current === "Error") return;
+  if (operator !== null && !replaceNext) {
+    const result = calculate(previous, Number(current), operator);
+    current = format(result);
+    if (current === "Error") {
+      previous = null;
+      operator = null;
+      history = "Cannot divide by zero";
+      render();
+      return;
+    }
+  }
+  previous = Number(current);
+  operator = op;
+  history = `${current} ${symbols[op]}`;
+  replaceNext = true;
+  render();
+}
+function equals() {
+  if (operator === null || replaceNext) return;
+  const second = Number(current);
+  history = `${format(previous)} ${symbols[operator]} ${current} =`;
+  current = format(calculate(previous, second, operator));
+  previous = null;
+  operator = null;
+  replaceNext = true;
+  render();
+}
+function action(type) {
+  if (type === "clear") clear();
+  else if (type === "delete") {
+    if (replaceNext || current === "Error") {
+      current = "0";
+      replaceNext = false;
+    } else
+      current =
+        current.length <= 1 || (current.length === 2 && current.startsWith("-"))
+          ? "0"
+          : current.slice(0, -1);
+    render();
+  } else if (type === "sign") {
+    if (current !== "0" && current !== "Error")
+      current = current.startsWith("-") ? current.slice(1) : "-" + current;
+    render();
+  } else if (type === "percent") {
+    if (current !== "Error") current = format(Number(current) / 100);
+    render();
+  } else if (type === "equals") equals();
+}
+document.querySelectorAll(".keys button").forEach((button) =>
+  button.addEventListener("click", () => {
+    if (button.dataset.action === "operator")
+      chooseOperator(button.dataset.value);
+    else if (button.dataset.action) action(button.dataset.action);
+    else input(button.dataset.value);
+  }),
+);
+document.addEventListener("keydown", (event) => {
+  if (event.altKey || event.ctrlKey || event.metaKey) return;
+  const k = event.key;
+  if (/^[0-9.]$/.test(k)) input(k);
+  else if (["+", "-", "*", "/"].includes(k)) {
+    event.preventDefault();
+    chooseOperator(k);
+  } else if (k === "Enter" || k === "=") {
+    event.preventDefault();
+    equals();
+  } else if (k === "Backspace") {
+    event.preventDefault();
+    action("delete");
+  } else if (k === "Escape") {
+    clear();
+  } else if (k === "%") action("percent");
+});
+render();
