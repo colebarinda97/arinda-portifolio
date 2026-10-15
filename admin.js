@@ -79,71 +79,119 @@ let data;
 let hasLocalDraft = false;
 try {
   data = JSON.parse(localStorage.getItem(KEY));
-  hasLocalDraft = valid(data);
+  hasLocalDraft = Boolean(valid(data));
 } catch {}
 if (!hasLocalDraft) data = structuredClone(defaults);
-let sourceState = hasLocalDraft ? "Local draft loaded" : "Loading website JSON…";
+let sourceState = hasLocalDraft
+  ? "Local draft loaded"
+  : "Loading website JSON…";
 const normalize = (value) => ({
   ...value,
   fields: { ...defaults.fields, ...(value.fields || {}) },
   categories: { ...defaults.categories, ...(value.categories || {}) },
 });
 function showSourceState() {
-  const el = document.querySelector("#content-source");
+  const el = $("#content-source");
   if (el) el.textContent = sourceState;
 }
 async function fetchWebsiteContent() {
-  const response = await fetch(`./docs/portfolio-content.json?t=${Date.now()}`, { cache: "no-store" });
+  const response = await fetch(
+    `./docs/portfolio-content.json?t=${Date.now()}`,
+    { cache: "no-store" },
+  );
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const result = await response.json();
   if (!valid(result)) throw new Error("Invalid portfolio JSON");
   return normalize(result);
 }
 async function loadWebsiteContent(force = false) {
+  if (
+    hasUnsavedChanges &&
+    !confirm(
+      "You have unsaved changes. Discard them and load the website JSON?",
+    )
+  )
+    return;
   try {
     const website = await fetchWebsiteContent();
     if (!force && hasLocalDraft) {
-      sourceState = JSON.stringify(website) === JSON.stringify(data)
-        ? "Local draft matches website JSON"
-        : "Local draft loaded · website JSON available (click Load website JSON to replace draft)";
+      sourceState =
+        JSON.stringify(website) === JSON.stringify(data)
+          ? "Local draft matches website JSON"
+          : "Local draft loaded · website JSON available (click Load website JSON to replace draft)";
       showSourceState();
       return;
     }
-    if (force && !confirm("Replace the current local draft with docs/portfolio-content.json? Export a backup first if needed.")) return;
+    if (
+      force &&
+      !hasUnsavedChanges &&
+      !confirm(
+        "Replace the current local draft with docs/portfolio-content.json? Export a backup first if needed.",
+      )
+    )
+      return;
     data = website;
     hasLocalDraft = true;
     localStorage.setItem(KEY, JSON.stringify(data));
-    resetSkill(); resetProject(); render(); updateOverview();
+    hasUnsavedChanges = false;
+    resetSkill();
+    resetProject();
+    render();
+    updateOverview();
     sourceState = "Website JSON loaded · saved as local draft";
     showSourceState();
-    status("Loaded docs/portfolio-content.json. Your browser draft now matches this file.");
+    status(
+      "Loaded docs/portfolio-content.json. Your browser draft now matches this file.",
+    );
   } catch (error) {
     sourceState = `Could not load website JSON (${error.message}); using local draft`;
     showSourceState();
-    status("Check that Live Server is running and docs/portfolio-content.json exists.");
+    status("Check Live Server and docs/portfolio-content.json.");
   }
 }
 data.fields = { ...defaults.fields, ...(data.fields || {}) };
 data.categories = { ...defaults.categories, ...(data.categories || {}) };
 let editingSkill = null,
   editingProject = null;
-const status = (msg) => ($("#status").textContent = msg);
-function updateOverview() {
-  $("#stat-projects").textContent = data.projects.length;
-  $("#stat-skills").textContent = Object.values(data.skills).reduce((sum, items) => sum + items.length, 0);
-  $("#stat-categories").textContent = Object.keys(data.skills).length;
+let hasUnsavedChanges = false;
+function markUnsaved() {
+  hasUnsavedChanges = true;
+  status("You have unsaved changes.");
 }
+// Attach listeners once, outside markUnsaved().
+document
+  .querySelectorAll("[data-section]")
+  .forEach((form) => form.addEventListener("input", markUnsaved));
+$("#skill-form").addEventListener("input", markUnsaved);
+$("#project-form").addEventListener("input", markUnsaved);
+document.addEventListener("input", (event) => {
+  if (event.target.closest(".category-form")) markUnsaved();
+});
+window.addEventListener("beforeunload", (event) => {
+  if (!hasUnsavedChanges) return;
+  event.preventDefault();
+  event.returnValue = "";
+});
+const status = (msg) => ($("#status").textContent = msg);
 function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify(data));
+    hasUnsavedChanges = false;
     hasLocalDraft = true;
     sourceState = "Local draft saved · not yet published";
     showSourceState();
-    status("Saved locally. Export for website when ready to publish.");
-    updateOverview();
+    status("Saved. Refresh your portfolio tab to see changes.");
   } catch {
     status("Saving failed. Check browser storage settings.");
   }
+}
+function updateOverview() {
+  $("#stat-projects").textContent = data.projects.length;
+  $("#stat-skills").textContent = Object.values(data.skills).reduce(
+    (sum, items) => sum + items.length,
+    0,
+  );
+  $("#stat-categories").textContent = Object.keys(data.skills).length;
 }
 function safeLink(value) {
   const v = value.trim();
@@ -204,7 +252,6 @@ function renderSkills() {
           });
         }),
         actionButton("Remove", () => {
-          if (!confirm(`Remove skill "${name}"?`)) return;
           data.skills[category].splice(i, 1);
           resetSkill();
           save();
@@ -243,7 +290,6 @@ function renderProjects() {
         });
       }),
       actionButton("Remove", () => {
-        if (!confirm(`Remove project "${p.title}"?`)) return;
         data.projects.splice(i, 1);
         resetProject();
         save();
@@ -357,7 +403,13 @@ $("#project-form").addEventListener("submit", (e) => {
 });
 $("#cancel-edit").addEventListener("click", resetProject);
 function downloadJson(filename) {
-  const blob = new Blob([JSON.stringify(data, null, 2) + "\n"], { type: "application/json" });
+  if (hasUnsavedChanges) {
+    status("Save your edited form before exporting the JSON.");
+    return;
+  }
+  const blob = new Blob([JSON.stringify(data, null, 2) + "\n"], {
+    type: "application/json",
+  });
   const url = URL.createObjectURL(blob);
   const a = document.createElement("a");
   a.href = url;
@@ -370,9 +422,20 @@ function downloadJson(filename) {
   showSourceState();
   status(`Downloaded ${filename}. Not published yet.`);
 }
-$("#export").addEventListener("click", () => downloadJson("portfolio-content-backup.json"));
-$("#export-publish").addEventListener("click", () => downloadJson("portfolio-content.json"));
+$("#export").addEventListener("click", () =>
+  downloadJson("portfolio-content-backup.json"),
+);
+$("#export-publish").addEventListener("click", () =>
+  downloadJson("portfolio-content.json"),
+);
 $("#import").addEventListener("change", async (e) => {
+  if (
+    hasUnsavedChanges &&
+    !confirm("Discard unsaved form edits and import a backup?")
+  ) {
+    e.target.value = "";
+    return;
+  }
   const file = e.target.files[0];
   if (!file) return;
   try {
@@ -390,8 +453,8 @@ $("#import").addEventListener("change", async (e) => {
   }
   e.target.value = "";
 });
-$("#load-website").addEventListener("click", () => loadWebsiteContent(true));
 render();
+$("#load-website").addEventListener("click", () => loadWebsiteContent(true));
 updateOverview();
 showSourceState();
 loadWebsiteContent(false);
