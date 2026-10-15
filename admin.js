@@ -76,10 +76,53 @@ function valid(value) {
   );
 }
 let data;
+let hasLocalDraft = false;
 try {
   data = JSON.parse(localStorage.getItem(KEY));
+  hasLocalDraft = valid(data);
 } catch {}
-if (!valid(data)) data = structuredClone(defaults);
+if (!hasLocalDraft) data = structuredClone(defaults);
+let sourceState = hasLocalDraft ? "Local draft loaded" : "Loading website JSON…";
+const normalize = (value) => ({
+  ...value,
+  fields: { ...defaults.fields, ...(value.fields || {}) },
+  categories: { ...defaults.categories, ...(value.categories || {}) },
+});
+function showSourceState() {
+  const el = document.querySelector("#content-source");
+  if (el) el.textContent = sourceState;
+}
+async function fetchWebsiteContent() {
+  const response = await fetch(`./docs/portfolio-content.json?t=${Date.now()}`, { cache: "no-store" });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const result = await response.json();
+  if (!valid(result)) throw new Error("Invalid portfolio JSON");
+  return normalize(result);
+}
+async function loadWebsiteContent(force = false) {
+  try {
+    const website = await fetchWebsiteContent();
+    if (!force && hasLocalDraft) {
+      sourceState = JSON.stringify(website) === JSON.stringify(data)
+        ? "Local draft matches website JSON"
+        : "Local draft loaded · website JSON available (click Load website JSON to replace draft)";
+      showSourceState();
+      return;
+    }
+    if (force && !confirm("Replace the current local draft with docs/portfolio-content.json? Export a backup first if needed.")) return;
+    data = website;
+    hasLocalDraft = true;
+    localStorage.setItem(KEY, JSON.stringify(data));
+    resetSkill(); resetProject(); render(); updateOverview();
+    sourceState = "Website JSON loaded · saved as local draft";
+    showSourceState();
+    status("Loaded docs/portfolio-content.json. Your browser draft now matches this file.");
+  } catch (error) {
+    sourceState = `Could not load website JSON (${error.message}); using local draft`;
+    showSourceState();
+    status("Check that Live Server is running and docs/portfolio-content.json exists.");
+  }
+}
 data.fields = { ...defaults.fields, ...(data.fields || {}) };
 data.categories = { ...defaults.categories, ...(data.categories || {}) };
 let editingSkill = null,
@@ -93,6 +136,9 @@ function updateOverview() {
 function save() {
   try {
     localStorage.setItem(KEY, JSON.stringify(data));
+    hasLocalDraft = true;
+    sourceState = "Local draft saved · not yet published";
+    showSourceState();
     status("Saved locally. Export for website when ready to publish.");
     updateOverview();
   } catch {
@@ -320,7 +366,9 @@ function downloadJson(filename) {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  status(`Downloaded ${filename}.`);
+  sourceState = "Exported JSON · replace docs file and push to publish";
+  showSourceState();
+  status(`Downloaded ${filename}. Not published yet.`);
 }
 $("#export").addEventListener("click", () => downloadJson("portfolio-content-backup.json"));
 $("#export-publish").addEventListener("click", () => downloadJson("portfolio-content.json"));
@@ -342,4 +390,8 @@ $("#import").addEventListener("change", async (e) => {
   }
   e.target.value = "";
 });
+$("#load-website").addEventListener("click", () => loadWebsiteContent(true));
 render();
+updateOverview();
+showSourceState();
+loadWebsiteContent(false);

@@ -168,3 +168,7 @@ section[id] {
 .admin-panel code { overflow-wrap:anywhere; }
 #status { position:sticky; bottom:12px; background:var(--color-surface,#fff); border:1px solid var(--color-border,#ddd); padding:12px 16px; border-radius:9px; }
 @media(max-width:600px){.admin-overview{gap:8px}.admin-stat{padding:14px}.admin-stat span{font-size:1.5rem}}
+
+.admin-source { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; margin:16px 0; padding:14px 18px; border:1px solid var(--color-border); border-radius:10px; background:var(--color-surface); }
+.admin-source span { font-weight:650; }
+.admin-source .btn { margin:0; }
