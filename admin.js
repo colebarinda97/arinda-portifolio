@@ -222,6 +222,23 @@ function resetProject() {
   $("#project-submit").textContent = "Add project";
   $("#cancel-edit").hidden = true;
 }
+
+function moveProject(index, direction) {
+  const newIndex = index + direction;
+
+  if (newIndex < 0 || newIndex >= data.projects.length) {
+    return;
+  }
+
+  [data.projects[index], data.projects[newIndex]] = [
+    data.projects[newIndex],
+    data.projects[index],
+  ];
+
+  save();
+  renderProjects();
+}
+
 function renderSkills() {
   const root = $("#skill-lists");
   root.replaceChildren();
@@ -264,16 +281,63 @@ function renderSkills() {
     root.append(section);
   });
 }
+
+function previewProject(link) {
+  if (!link || !link.trim()) {
+    status("This project has no preview link.");
+    return;
+  }
+
+  try {
+    const url = new URL(link.trim(), new URL("./docs/", window.location.href));
+
+    if (!["http:", "https:"].includes(url.protocol)) {
+      throw new Error("Invalid URL");
+    }
+
+    window.open(url.href, "_blank", "noopener");
+  } catch (error) {
+    console.error("Preview error:", error);
+    status("Unable to open project preview.");
+  }
+}
+
 function renderProjects() {
   const root = $("#project-lists");
   root.replaceChildren();
   data.projects.forEach((p, i) => {
     const row = document.createElement("div");
     row.className = "admin-entry";
-    const name = document.createElement("span");
-    name.textContent = p.title;
+    const name = document.createElement("div");
+
+    const title = document.createElement("strong");
+    title.textContent = p.title;
+
+    const category = document.createElement("small");
+    category.textContent = p.category;
+
+    const link = document.createElement("small");
+    link.textContent = p.link || "No link provided";
+
+    name.append(title, category, link);
+
+    name.style.display = "flex";
+    name.style.flexDirection = "column";
+    name.style.gap = "4px";
     const actions = document.createElement("div");
     actions.className = "entry-actions";
+    if (i > 0) {
+      actions.append(actionButton("↑ Move Up", () => moveProject(i, -1)));
+    }
+
+    if (i < data.projects.length - 1) {
+      actions.append(actionButton("↓ Move Down", () => moveProject(i, 1)));
+    }
+    actions.append(
+      actionButton("Preview ↗", () => {
+        previewProject(p.link);
+      }),
+    );
     actions.append(
       actionButton("Edit", () => {
         editingProject = i;
