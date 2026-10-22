@@ -6,7 +6,6 @@
     <title>Portfolio Admin | Arinda Coleb</title>
     <link rel="stylesheet" href="./docs/style.css" />
     <link rel="stylesheet" href="admin.css" />
-    <script src="admin.js" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -21,28 +20,53 @@
         <p class="eyebrow">LOCAL CONTENT EDITOR</p>
         <h1>Portfolio Admin</h1>
         <p>
-          Edit your content, save your changes, and export a publish-ready JSON file. Your live website updates after you commit and push that file to GitHub.
+          Edit your content, save your changes, and export a publish-ready JSON
+          file. Your live website updates after you commit and push that file to
+          GitHub.
         </p>
       </div>
       <section class="admin-overview" aria-label="Content overview">
-        <div class="admin-stat"><span id="stat-projects">0</span><small>Projects</small></div>
-        <div class="admin-stat"><span id="stat-skills">0</span><small>Skills</small></div>
-        <div class="admin-stat"><span id="stat-categories">0</span><small>Categories</small></div>
+        <div class="admin-stat">
+          <span id="stat-projects">0</span><small>Projects</small>
+        </div>
+        <div class="admin-stat">
+          <span id="stat-skills">0</span><small>Skills</small>
+        </div>
+        <div class="admin-stat">
+          <span id="stat-categories">0</span><small>Categories</small>
+        </div>
       </section>
       <div class="admin-source" role="status" aria-live="polite">
         <span id="content-source">Checking content source…</span>
-        <button id="load-website" class="btn btn-secondary" type="button">Load website JSON</button>
+        <button id="load-website" class="btn btn-secondary" type="button">
+          Load website JSON
+        </button>
       </div>
       <div class="admin-toolbar">
-        <a class="btn btn-secondary" href="docs/index.html" target="_blank" rel="noopener">Preview local portfolio ↗</a>
-        <a class="btn btn-secondary" href="https://colebarinda97.github.io/arinda-portifolio/" target="_blank" rel="noopener">View published site ↗</a>
-        <button class="btn btn-primary" id="export-publish" type="button">Export for website</button>
+        <a
+          class="btn btn-secondary"
+          href="docs/index.html"
+          target="_blank"
+          rel="noopener"
+          >Preview local portfolio ↗</a
+        >
+        <a
+          class="btn btn-secondary"
+          href="https://colebarinda97.github.io/arinda-portifolio/"
+          target="_blank"
+          rel="noopener"
+          >View published site ↗</a
+        >
+        <button class="btn btn-primary" id="export-publish" type="button">
+          Export for website
+        </button>
       </div>
       <nav class="admin-jump" aria-label="Editor sections">
         <a href="#panel-hero">Hero</a><a href="#panel-about">About</a
         ><a href="#panel-skillsMeta">Skills</a
         ><a href="#panel-projects">Projects</a
-        ><a href="#panel-contact">Contact</a><a href="#panel-footer">Footer</a><a href="#panel-publish">Publish</a>
+        ><a href="#panel-contact">Contact</a><a href="#panel-footer">Footer</a
+        ><a href="#panel-publish">Publish</a>
       </nav>
       <section class="admin-panel" id="panel-hero">
         <h2>Hero / introduction</h2>
@@ -142,10 +166,7 @@
             maxlength="1000"
           ></textarea
           ><label for="project-link">Project URL</label
-          ><input
-            id="project-link"
-            placeholder="Projects/Calc/index.html"
-          />
+          ><input id="project-link" placeholder="Projects/Calc/index.html" />
           <div class="admin-actions">
             <button id="project-submit" class="btn btn-primary" type="submit">
               Add project</button
@@ -187,19 +208,34 @@
       <section class="admin-panel">
         <h2 id="panel-publish">Backup & publishing</h2>
         <p>
-          Export for website to download <code>portfolio-content.json</code>, then replace <code>docs/portfolio-content.json</code> and push to GitHub. Keep a separate backup if you want to transfer your editor settings to another browser.
+          Export for website to download <code>portfolio-content.json</code>,
+          then replace <code>docs/portfolio-content.json</code> and push to
+          GitHub. Keep a separate backup if you want to transfer your editor
+          settings to another browser.
         </p>
         <div class="admin-actions">
+          <button type="button" id="save-cloud" class="btn btn-primary">
+            Save to Cloud
+          </button>
+          <button type="button" id="load-cloud" class="btn btn-primary">
+            Load from Cloud
+          </button>
           <button id="export" class="btn btn-primary" type="button">
             Export backup</button
           ><label class="import-label" for="import">Import JSON backup</label
           ><input id="import" type="file" accept=".json,application/json" />
         </div>
         <p class="admin-warning">
-          Admin changes are saved only in this browser. Export for website does not automatically publish. Do not place these admin files in the public docs folder: this editor has no authentication.
+          Admin changes are saved only in this browser. Export for website does
+          not automatically publish. Do not place these admin files in the
+          public docs folder: this editor has no authentication.
         </p>
       </section>
       <p id="status" role="status" aria-live="polite"></p>
     </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="admin-guard.js"></script>
   </body>
 </html>

@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login | Arinda Coleb</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: #0f172a;
+        font-family: Arial, sans-serif;
+        color: #f8fafc;
+      }
+
+      .login-container {
+        width: 90%;
+        max-width: 400px;
+        padding: 35px;
+        background: #1e293b;
+        border-radius: 14px;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.3);
+      }
+
+      h1 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      p {
+        text-align: center;
+        color: #94a3b8;
+        margin-bottom: 25px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+      }
+
+      input {
+        width: 100%;
+        padding: 12px;
+        margin-bottom: 18px;
+        border: 1px solid #475569;
+        border-radius: 8px;
+        background: #0f172a;
+        color: white;
+        font-size: 15px;
+      }
+
+      button {
+        width: 100%;
+        padding: 13px;
+        background: #38bdf8;
+        border: none;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background: #0ea5e9;
+      }
+
+      button:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      #message {
+        margin-top: 15px;
+        text-align: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main class="login-container">
+      <h1>Admin Login</h1>
+      <p>Arinda Coleb Portfolio Management</p>
+
+      <form id="login-form">
+        <label for="email">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          required
+          autocomplete="username"
+          placeholder="Enter your email"
+        />
+
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          required
+          autocomplete="current-password"
+          placeholder="Enter your password"
+        />
+
+        <button type="submit" id="login-btn">Sign In</button>
+      </form>
+
+      <p id="message" role="status"></p>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+    <script src="supabase-config.js"></script>
+    <script src="login.js"></script>
+  </body>
+</html>

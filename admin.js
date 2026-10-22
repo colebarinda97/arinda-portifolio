@@ -80,7 +80,10 @@ let hasLocalDraft = false;
 try {
   data = JSON.parse(localStorage.getItem(KEY));
   hasLocalDraft = Boolean(valid(data));
-} catch {}
+} catch (error) {
+  console.error("Failed to load local portfolio data:", error);
+  hasLocalDraft = false;
+}
 if (!hasLocalDraft) data = structuredClone(defaults);
 let sourceState = hasLocalDraft
   ? "Local draft loaded"
@@ -159,13 +162,30 @@ function markUnsaved() {
   status("You have unsaved changes.");
 }
 // Attach listeners once, outside markUnsaved().
-document
-  .querySelectorAll("[data-section]")
-  .forEach((form) => form.addEventListener("input", markUnsaved));
-$("#skill-form").addEventListener("input", markUnsaved);
-$("#project-form").addEventListener("input", markUnsaved);
+// Track unsaved changes in section forms
+document.querySelectorAll("[data-section]").forEach((form) => {
+  form.addEventListener("input", markUnsaved);
+});
+
+// Track unsaved changes in the skill form
+const skillForm = $("#skill-form");
+
+if (skillForm) {
+  skillForm.addEventListener("input", markUnsaved);
+}
+
+// Track unsaved changes in the project form
+const projectForm = $("#project-form");
+
+if (projectForm) {
+  projectForm.addEventListener("input", markUnsaved);
+}
+
+// Track unsaved changes in category forms
 document.addEventListener("input", (event) => {
-  if (event.target.closest(".category-form")) markUnsaved();
+  if (event.target.closest(".category-form")) {
+    markUnsaved();
+  }
 });
 window.addEventListener("beforeunload", (event) => {
   if (!hasUnsavedChanges) return;
@@ -185,6 +205,53 @@ function save() {
     status("Saving failed. Check browser storage settings.");
   }
 }
+
+async function saveToSupabase() {
+  try {
+    // First, save the current content locally.
+    save();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabaseClient.auth.getUser();
+
+    if (authError || !user) {
+      status("Please sign in before saving online.");
+      return;
+    }
+
+    status("Saving to Supabase...");
+
+    const { data: result, error } = await supabaseClient
+      .from("portfolio_content")
+      .update({
+        content: data,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", 1)
+      .select("id");
+
+    if (error) {
+      throw error;
+    }
+
+    if (!result || result.length !== 1) {
+      throw new Error("No database row was updated.");
+    }
+
+    sourceState = "Saved to Supabase cloud";
+    showSourceState();
+
+    status("Successfully saved to Supabase!");
+
+    console.log("Cloud save successful.");
+  } catch (error) {
+    console.error("Supabase save error:", error);
+    status("Cloud save failed: " + error.message);
+  }
+}
+
 function updateOverview() {
   $("#stat-projects").textContent = data.projects.length;
   $("#stat-skills").textContent = Object.values(data.skills).reduce(
@@ -517,8 +584,65 @@ $("#import").addEventListener("change", async (e) => {
   }
   e.target.value = "";
 });
+
+$("#save-cloud").addEventListener("click", saveToSupabase);
+
+async function loadFromSupabase() {
+  try {
+    status("Loading portfolio from Supabase...");
+
+    const { data: row, error } = await supabaseClient
+      .from("portfolio_content")
+      .select("content")
+      .eq("id", 1)
+      .single();
+
+    if (error) throw error;
+
+    if (!row || !valid(row.content)) {
+      throw new Error("Invalid portfolio content in database.");
+    }
+
+    // Protect edits that have not been saved.
+    if (
+      hasUnsavedChanges &&
+      !confirm("Discard unsaved edits and load cloud content?")
+    ) {
+      status("Cloud loading cancelled.");
+      return;
+    }
+
+    // Replace the editor data with the cloud version.
+    data = normalize(row.content);
+
+    // Keep a local backup.
+    localStorage.setItem(KEY, JSON.stringify(data));
+
+    hasLocalDraft = true;
+    hasUnsavedChanges = false;
+
+    resetSkill();
+    resetProject();
+    render();
+    updateOverview();
+
+    sourceState = "Latest portfolio loaded from Supabase";
+    showSourceState();
+
+    status("Cloud content loaded successfully!");
+  } catch (error) {
+    console.error("Supabase load error:", error);
+    status("Cloud loading failed: " + error.message);
+  }
+}
+
+$("#load-cloud").addEventListener("click", loadFromSupabase);
 render();
+
 $("#load-website").addEventListener("click", () => loadWebsiteContent(true));
+
 updateOverview();
 showSourceState();
-loadWebsiteContent(false);
+
+// Load the latest cloud data automatically.
+loadFromSupabase();
